@@ -6,7 +6,7 @@ import Bottom from './bottom'
 export default class layout extends React.Component {
     render() {
         // 接收_app.js中传入的component和pageProps这两个对象
-        const { Component, pageProps } = this.props
+        const { Component, ...pageProps } = this.props
 
          return (<div>
             {/* 1.0 头部 */}
