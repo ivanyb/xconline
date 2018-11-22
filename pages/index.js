@@ -9,7 +9,7 @@ import css from  '../static/css/site.less'
 
 import {Button} from 'antd'
 
-// 使用redux中的store步骤1：
+// 1.0 导入connect
 import {connect} from 'react-redux'
 
 class index extends React.Component{
@@ -106,15 +106,12 @@ class index extends React.Component{
   }
 }
 
-
-// 步骤2：利用connect对index类进行包装，使得所有的reducer中的state值能够被当前对象获取到
-// 可以通过this.props获取到
-
-const mapState = (state)=>{
-  // 将state绑定到this.props上
+// 定义一个函数将store中的state绑定到当前组件的props中
+const mapStateToProps = (state)=>{
   return {
     ...state
   }
 }
 
-export default connect(mapState)(index)
+// 当前index组件的props中就会有一个testReducer，里面就可以点出color这个属性
+export default connect(mapStateToProps,null)(index)

@@ -4,6 +4,7 @@ import Head from 'next/head'
 
 import {connect} from 'react-redux'
 
+
 class home extends React.Component {
     render() { 
         return (<div>
@@ -16,11 +17,9 @@ class home extends React.Component {
     }
 }
 
-
-const mapState = (state)=>{
+const mapStateToProps =(state)=>{
     return {
         ...state
     }
 }
-
-export default connect(mapState)(home)
+export default connect(mapStateToProps,null)(home)

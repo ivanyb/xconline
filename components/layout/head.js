@@ -1,12 +1,12 @@
 import css from './layout.less';
 import { Icon, Badge } from 'antd';
 
-// 导入connect函数
+// 1.0 导入connect 从 react-redux包中
 import {connect} from 'react-redux'
 
  class head extends React.Component {
     render() {
-        return <header className={css.headtop + " w"}>
+        return (<header className={css.headtop + " w"}>
             <a href="" className="fl"><img src="/static/img/asset-logoIco.png" alt="" /></a>
             <div className={css.left + " fl"}>
                 <a className={css.a} href="">首页</a>
@@ -18,13 +18,13 @@ import {connect} from 'react-redux'
                 <button className="fr">搜索</button>
             </div>
             <div className={css.right + " fr"}>
-                <div class={css.signin}>
-                <a onClick={()=>{this.props.onChangeColor('blue')}}>蓝色</a> 
-                <a onClick={()=>{this.props.onChangeColor('red')}}>红色</a>
+                <div class={css.signin}>               
                     <Badge count={5}>
                        {/* 加入antd中的购物车图标 */}
                        <Icon type="shopping-cart" className={css.Icon} />
                     </Badge>
+                    <a onClick={()=>{this.props.onChangeColor('blue')}}>蓝色</a>
+                    <a onClick={()=>{this.props.onChangeColor('red')}}>红色</a>
                     {/* <!-- 未登录 -->*/}
                     <a href="#">登录 </a> <span> |</span> <a href="#"> 注册</a>
                     {/* <!-- 登录 --> */}
@@ -32,25 +32,21 @@ import {connect} from 'react-redux'
                     <a href="#" ><img src="/static/img/asset-myImg.jpg" alt="" />18665765432</a> */}
                 </div>
             </div>
-        </header>
-
+        </header>)
     }
 }
 
-const mapState = (state)=>{
-    return {
-        ...state
-    }
-}
-
-// 此方法可以传入一个dispatch,可以利用dispatch完成testReducer中的color属性改变逻辑的调用
-const mapDispath = (dispatch)=>{
+// 2.0 利用connect函数将组件对象包装以后返回
+// 2.0.1 注册一个dispatch触发对象到head组件的props中
+const mapDispathToProps = (dispatch)=>{
     return {
         onChangeColor:(color)=>{
-            // 利用dispatch触发testReducer中的方法的调用
+            // 调用dispatch完成store中的state属性的改变
             dispatch({type:'CHANGE_COLOR',color:color})
         }
     }
 }
 
-export default connect(mapState,mapDispath)(head)
+// connect有两个参数：第一个参数是一个函数，可以将store中的所有的state绑定到当前组件的props中
+// 第二个参数也是一个函数，可以将diapsth绑定到当前组件的props中
+export default connect(null,mapDispathToProps)(head)
