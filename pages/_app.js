@@ -2,8 +2,11 @@ import React from 'react'
 import App, { Container } from 'next/app'
 import Layout from '../components/layout/layout'
 
-// redux步骤1：导入store/index
-import {initStore} from '../store/index.js'
+// redux步骤1：导入store/index  其中persistor是store持久化使用
+import {initStore,persistor} from '../store/index.js'
+
+// store持久化步骤2导入PersistGate组件
+import {PersistGate} from 'redux-persist/integration/react'
 
 // redux步骤2：从next-redux-wrapper中导入withRedux方法
 import withRedux from 'next-redux-wrapper'
@@ -31,10 +34,13 @@ import {Provider} from 'react-redux'
             <Container>
                 {/* redux步骤三：通过Provider拿到store传入到所有的子组件 */}
                 <Provider store={store}>
+                {/* // store持久化步骤3 将PersistGate组件当做layout的根组件 */}
+                <PersistGate persistor={persistor}>
                     {/* 改造成利用Layout组件替换此处的Component,将Component组件提取到layout组件中进行执行 */}                
                     <Layout Component={Component} {...pageProps}>
 
                     </Layout>
+                 </PersistGate>
                 </Provider>
             </Container>
         )
