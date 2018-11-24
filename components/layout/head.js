@@ -1,14 +1,20 @@
 import css from './layout.less';
 import { Icon, Badge } from 'antd';
 
+<<<<<<< HEAD
 // redux步骤1：导入connect高阶函数(react-redux)，按需将store中的state
 // 和dispatch注册到当前head组件中来，但是由于head只需要触发事件，所有不需要store中state
 import {connect} from 'react-redux'
 
 
+=======
+// 1.0 导入connect 从 react-redux包中
+import {connect} from 'react-redux'
+
+>>>>>>> a417a48dddad342173f97df825f9d8cb668478d9
  class head extends React.Component {
     render() {
-        return <header className={css.headtop + " w"}>
+        return (<header className={css.headtop + " w"}>
             <a href="" className="fl"><img src="/static/img/asset-logoIco.png" alt="" /></a>
             <div className={css.left + " fl"}>
                 <a className={css.a} href="">首页</a>
@@ -20,7 +26,7 @@ import {connect} from 'react-redux'
                 <button className="fr">搜索</button>
             </div>
             <div className={css.right + " fr"}>
-                <div class={css.signin}>
+                <div class={css.signin}>               
                     <Badge count={5}>
                        {/* 加入antd中的购物车图标 */}
                        <Icon type="shopping-cart" className={css.Icon} />
@@ -34,11 +40,22 @@ import {connect} from 'react-redux'
                     <a href="#" ><img src="/static/img/asset-myImg.jpg" alt="" />18665765432</a> */}
                 </div>
             </div>
-        </header>
-
+        </header>)
     }
 }
 
+// 2.0 利用connect函数将组件对象包装以后返回
+// 2.0.1 注册一个dispatch触发对象到head组件的props中
+const mapDispathToProps = (dispatch)=>{
+    return {
+        onChangeColor:(color)=>{
+            // 调用dispatch完成store中的state属性的改变
+            dispatch({type:'CHANGE_COLOR',color:color})
+        }
+    }
+}
+
+<<<<<<< HEAD
 /**
  * connect有两个参数:
  * 1、第一个参数本质上是一个函数，可以将store中的state绑定到head组件中的props中
@@ -56,3 +73,8 @@ import {connect} from 'react-redux'
  }
 
 export default connect(null,mapDispatchToProps)(head)
+=======
+// connect有两个参数：第一个参数是一个函数，可以将store中的所有的state绑定到当前组件的props中
+// 第二个参数也是一个函数，可以将diapsth绑定到当前组件的props中
+export default connect(null,mapDispathToProps)(head)
+>>>>>>> a417a48dddad342173f97df825f9d8cb668478d9
