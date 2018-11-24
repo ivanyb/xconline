@@ -1,17 +1,11 @@
 import css from './layout.less';
 import { Icon, Badge } from 'antd';
 
-<<<<<<< HEAD
 // redux步骤1：导入connect高阶函数(react-redux)，按需将store中的state
 // 和dispatch注册到当前head组件中来，但是由于head只需要触发事件，所有不需要store中state
 import {connect} from 'react-redux'
 
 
-=======
-// 1.0 导入connect 从 react-redux包中
-import {connect} from 'react-redux'
-
->>>>>>> a417a48dddad342173f97df825f9d8cb668478d9
  class head extends React.Component {
     render() {
         return (<header className={css.headtop + " w"}>
@@ -55,7 +49,6 @@ const mapDispathToProps = (dispatch)=>{
     }
 }
 
-<<<<<<< HEAD
 /**
  * connect有两个参数:
  * 1、第一个参数本质上是一个函数，可以将store中的state绑定到head组件中的props中
@@ -73,8 +66,3 @@ const mapDispathToProps = (dispatch)=>{
  }
 
 export default connect(null,mapDispatchToProps)(head)
-=======
-// connect有两个参数：第一个参数是一个函数，可以将store中的所有的state绑定到当前组件的props中
-// 第二个参数也是一个函数，可以将diapsth绑定到当前组件的props中
-export default connect(null,mapDispathToProps)(head)
->>>>>>> a417a48dddad342173f97df825f9d8cb668478d9

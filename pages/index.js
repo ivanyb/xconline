@@ -9,7 +9,6 @@ import css from  '../static/css/site.less'
 
 import {Button} from 'antd'
 
-<<<<<<< HEAD
 import {connect} from 'react-redux'
 
 class index extends React.Component{
@@ -51,54 +50,9 @@ render(){ return (
             <h3>Create Next App &rarr;</h3>
             <p>Was this tool helpful? Let us know how we can improve it</p>
           </a>
-=======
-// 1.0 导入connect
-import {connect} from 'react-redux'
-
-class index extends React.Component{
-  render(){
-    return (
-      <div>
-    
-        <Head>
-          <title>首页</title>
-        </Head>  
-    
-        <Link href={{pathname:'/home'}}>
-        <Button type="primary" icon="search">搜索</Button>
->>>>>>> a417a48dddad342173f97df825f9d8cb668478d9
         </Link>
-        <div className="hero">
-          <h1 className={css.title} style={{color:this.props.testReducer.color}}>Welcome to Next!</h1>
-          <p className="description">
-            To get started, edit <code>pages/index.js</code> and save to reload.
-          </p>
-    
-          <div className="row">
-            <Link href="https://github.com/zeit/next.js#getting-started">
-              <a className="card">
-                <h3>Getting Started &rarr;</h3>
-                <p>Learn more about Next on Github and in their examples</p>
-              </a>
-            </Link>
-            <Link href="https://open.segment.com/create-next-app">
-              <a className="card">
-                <h3>Examples &rarr;</h3>
-                <p>
-                  Find other example boilerplates on the{' '}
-                  <code>create-next-app</code> site
-                </p>
-              </a>
-            </Link>
-            <Link href="https://github.com/segmentio/create-next-app">
-              <a className="card">
-                <h3>Create Next App &rarr;</h3>
-                <p>Was this tool helpful? Let us know how we can improve it</p>
-              </a>
-            </Link>
-          </div>
+        
         </div>
-    
         <style jsx>{`
           .hero {
             width: 100%;
@@ -145,76 +99,18 @@ class index extends React.Component{
             color: #333;
           }
         `}</style>
-      </div>
+    
+    </div>
+    </div>
     )
   }
 }
 
-<<<<<<< HEAD
-    <style jsx>{`
-      .hero {
-        width: 100%;
-        color: #333;
-      }
-      .title {
-        margin: 0;
-        width: 100%;
-        padding-top: 80px;
-        line-height: 1.15;
-        font-size: 48px;
-      }
-      .title,
-      .description {
-        text-align: center;
-      }
-      .row {
-        max-width: 880px;
-        margin: 80px auto 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-around;
-      }
-      .card {
-        padding: 18px 18px 24px;
-        width: 220px;
-        text-align: left;
-        text-decoration: none;
-        color: #434343;
-        border: 1px solid #9b9b9b;
-      }
-      .card:hover {
-        border-color: #067df7;
-      }
-      .card h3 {
-        margin: 0;
-        color: #067df7;
-        font-size: 18px;
-      }
-      .card p {
-        margin: 0;
-        padding: 12px 0 0;
-        font-size: 13px;
-        color: #333;
-      }
-    `}</style>
-  </div>
-)
-    }
 
-  }
-
-=======
-// 定义一个函数将store中的state绑定到当前组件的props中
->>>>>>> a417a48dddad342173f97df825f9d8cb668478d9
 const mapStateToProps = (state)=>{
   return {
     ...state
   }
 }
 
-<<<<<<< HEAD
 export default  connect(mapStateToProps,null)(index)
-=======
-// 当前index组件的props中就会有一个testReducer，里面就可以点出color这个属性
-export default connect(mapStateToProps,null)(index)
->>>>>>> a417a48dddad342173f97df825f9d8cb668478d9
