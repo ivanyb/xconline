@@ -9,18 +9,22 @@ import css from  '../static/css/site.less'
 
 import {Button} from 'antd'
 
-const Home = () => (
+import {connect} from 'react-redux'
+
+class index extends React.Component{
+
+render(){ return (
   <div>
 
     <Head>
       <title>首页</title>      
     </Head>
    
-
+    <Link href={{pathname:'/home'}}>
     <Button type="primary" icon="search">搜索</Button>
-
+    </Link>
     <div className="hero">
-      <h1 className={css.title}>Welcome to Next!</h1>
+      <h1 className={css.title} style={{color:this.props.testReducer.color}}>Welcome to Next!</h1>
       <p className="description">
         To get started, edit <code>pages/index.js</code> and save to reload.
       </p>
@@ -98,5 +102,14 @@ const Home = () => (
     `}</style>
   </div>
 )
+    }
 
-export default Home
+  }
+
+const mapStateToProps = (state)=>{
+  return {
+    ...state
+  }
+}
+
+export default  connect(mapStateToProps,null)(index)
