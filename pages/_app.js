@@ -14,6 +14,13 @@ import withRedux from 'next-redux-wrapper'
 // redux步骤3：导入一个Provider 组件,将来作为layout的父附件
 import {Provider} from 'react-redux'
 
+// 1.0 低版本浏览器中可以正常使用promise兼容性处理
+require('es6-promise').polyfill();  
+/*
+Next.js项目中有一种数据请求是会在组件的await async getInitialProps()方法中去请求数据，而getInitialProps方法会在nodejs服务器执行，不会在浏览器中执行
+保证在nodejs环境中也能利用isomorphic-fetch请求数据服务api，需要全局导入一下
+*/
+import 'isomorphic-fetch'
 
  class MyApp extends App {
     // 获取到子组件中的prpos对象

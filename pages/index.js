@@ -11,7 +11,26 @@ import {Button} from 'antd'
 
 import {connect} from 'react-redux'
 
+// 1、导入fetchHelper
+import fetchHelper from '../kits/fetchHelper.js'
+
 class index extends React.Component{
+
+  static async getInitialProps(){
+    let res = await  fetchHelper.get('/nc/course/courseDetial/getCourseDetial/102')
+    return {
+      // 并且将数据绑定到当前组件的props中
+        courseDetial:res.message.CourseDetial
+    }
+  }
+
+  /**
+   * 在nodejs环境中利用fetch请求url数据测试步骤：
+   * 1、导入fetchHelper
+   * 2、在组件中定义一个 static async getInitalProps()方法中发出数据请求，并且将数据绑定到当前组件
+   * 的props中
+   * 3、在render函数中调用this.props中的数据展现在界面上
+   *  */
 
 render(){ return (
   <div>
@@ -19,7 +38,9 @@ render(){ return (
     <Head>
       <title>首页</title>      
     </Head>
-   
+     课表标题为：
+     {this.props.pageProps.courseDetial.title}
+
     <Link href={{pathname:'/home'}}>
     <Button type="primary" icon="search">搜索</Button>
     </Link>

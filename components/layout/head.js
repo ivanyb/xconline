@@ -20,7 +20,7 @@ import {connect} from 'react-redux'
                 <button className="fr">搜索</button>
             </div>
             <div className={css.right + " fr"}>
-                <div class={css.signin}>               
+                <div className={css.signin}>               
                     <Badge count={5}>
                        {/* 加入antd中的购物车图标 */}
                        <Icon type="shopping-cart" className={css.Icon} />

@@ -20,7 +20,7 @@ export default class bottom extends React.Component {
                 <Row>
                
                 <Col span={6} offset={6}>
-                <dl class={css.dl}>
+                <dl className={css.dl}>
                             <dt>关于学成网</dt>
                             <dd>关于</dd>
                             <dd>管理团队</dd>
@@ -30,7 +30,7 @@ export default class bottom extends React.Component {
                         </dl>
                 </Col>
                 <Col span={6}>
-                <dl class={css.dl}>
+                <dl className={css.dl}>
                         <dt>新手指南</dt>
                         <dd>如何注册</dd>
                         <dd>如何选课</dd>
@@ -40,7 +40,7 @@ export default class bottom extends React.Component {
                     </dl>
                 </Col>
                 <Col span={6}>
-                <dl class={css.dl}>
+                <dl className={css.dl}>
                         <dt>合作伙伴</dt>
                         <dd>合作机构</dd>
                         <dd>合作导师</dd>
