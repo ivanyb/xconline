@@ -11,6 +11,7 @@ const TabPane = Tabs.TabPane;
 // 将用户对象存储到sessionStroage中
 import {setUser} from '../../kits/storageHelper.js'
 
+
 class login extends React.Component {
 
     // 负责执行登录请求的
@@ -39,6 +40,7 @@ class login extends React.Component {
         });
     }
 
+   
     render() {
         const { getFieldDecorator } = this.props.form;
 
@@ -78,8 +80,7 @@ class login extends React.Component {
                             </Form>
                         </TabPane>
                         <TabPane tab={<span><Icon type="android" />注册</span>} key="2">
-                            注册
-                         </TabPane>
+                        </TabPane>
                     </Tabs>
                 </Col>
             </Row>

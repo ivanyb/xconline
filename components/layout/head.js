@@ -60,12 +60,12 @@ import fetchHelper from '../../kits/fetchHelper.js'
                         <span>
                         {/* <!-- 登录以后要显示 --> */}
                         <a href="#" ><Icon type="bell" theme="twoTone" />个人中心</a>
-                        <a href="#" ><img src="/static/img/asset-myImg.jpg" alt="" width="30px" height="30px" />18665765432</a>
+                        <a href="#" >
+                        <img src="/static/img/asset-myImg.jpg" alt="" width="30px" height="30px" />
+                        {user.nick_name}</a>
                         <a href="#" onClick={()=>{this.logout()}}>退出</a>
                         </span>
                     }
-                    
-                    
                 </div>
             </div>
         </header>)
