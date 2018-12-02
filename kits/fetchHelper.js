@@ -33,10 +33,10 @@ fetchHelper.get = function(urlPath) {
 // 约定:body参数是一个js对象，在此方法中通过JSON.stringify转成json字符串
 fetchHelper.post = function(urlPath,body) {
     return fetch(baseUrl+urlPath,{
-        method:'GET',
+        method:'POST',
         headers:{
             // 告诉服务器当前请求报文体中的数据格式为json格式
-            'Contnet-Type':'application/json;charset=UTF-8' 
+            'Content-Type':'application/json;charset=UTF-8' 
         },
         body:JSON.stringify(body),
         cache:'no-cache',  //请求不被缓存

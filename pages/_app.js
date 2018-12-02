@@ -29,14 +29,13 @@ import 'isomorphic-fetch'
 
         if (Component.getInitialProps) {
             pageProps = await Component.getInitialProps(ctx)
-        }
-
+        } 
         return { pageProps }
     }
 
     render() {
         const { Component,store, ...pageProps } = this.props
-
+       
         return (
             <Container>
                 {/* redux步骤三：通过Provider拿到store传入到所有的子组件 */}

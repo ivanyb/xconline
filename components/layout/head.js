@@ -1,13 +1,37 @@
 import css from './layout.less';
-import { Icon, Badge } from 'antd';
+import { Icon, Badge,message } from 'antd';
 
 // redux步骤1：导入connect高阶函数(react-redux)，按需将store中的state
 // 和dispatch注册到当前head组件中来，但是由于head只需要触发事件，所有不需要store中state
 import {connect} from 'react-redux'
 
+import {getUser,removeUser} from '../../kits/storageHelper.js'
+import fetchHelper from '../../kits/fetchHelper.js'
 
  class head extends React.Component {
+    //  登出系统逻辑处理
+    logout(){
+        // 1.0 调用数据服务接口将服务器的当前浏览器的session清除
+        fetchHelper.get('/nc/common/account/logout')
+        .then(json=>{
+            if(json.status == 1){
+                // 请求失败 
+                message.error(json.message,1)
+            }else{
+                 // 2.0 清除浏览器中的sessionStroage中的当前用户信息
+                 removeUser()
+
+                 // 3.0 跳转到登录页面
+                 window.location = '/account/login'
+            }
+        })
+       
+    }
     render() {
+
+        // 1.0 从sessionStroage中获取用户对象
+        const user = getUser()
+
         return (<header className={css.headtop + " w"}>
             <a href="" className="fl"><img src="/static/img/asset-logoIco.png" alt="" /></a>
             <div className={css.left + " fl"}>
@@ -25,13 +49,23 @@ import {connect} from 'react-redux'
                        {/* 加入antd中的购物车图标 */}
                        <Icon type="shopping-cart" className={css.Icon} />
                     </Badge>
-                    <a onClick={()=>{this.props.onChangeColor('blue')}}>蓝色</a>
-                    <a onClick={()=>{this.props.onChangeColor('red')}}>红色</a>
-                    {/* <!-- 未登录 -->*/}
-                    <a href="#">登录 </a> <span> |</span> <a href="#"> 注册</a>
-                    {/* <!-- 登录 --> */}
-                    {/* <a href="#" ><Icon type="bell" theme="twoTone" />个人中心</a>
-                    <a href="#" ><img src="/static/img/asset-myImg.jpg" alt="" />18665765432</a> */}
+                    {/* <a onClick={()=>{this.props.onChangeColor('blue')}}>蓝色</a>
+                    <a onClick={()=>{this.props.onChangeColor('red')}}>红色</a> */}
+                    {
+                        !user.uid?<span>
+                        {/* <!-- 未登录要显示 -->*/}
+                        <a href="#">登录 </a> <span> |</span> <a href="#"> 注册</a>
+                        </span>
+                        :
+                        <span>
+                        {/* <!-- 登录以后要显示 --> */}
+                        <a href="#" ><Icon type="bell" theme="twoTone" />个人中心</a>
+                        <a href="#" ><img src="/static/img/asset-myImg.jpg" alt="" width="30px" height="30px" />18665765432</a>
+                        <a href="#" onClick={()=>{this.logout()}}>退出</a>
+                        </span>
+                    }
+                    
+                    
                 </div>
             </div>
         </header>)
