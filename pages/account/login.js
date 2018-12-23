@@ -11,6 +11,8 @@ const TabPane = Tabs.TabPane;
 // 将用户对象存储到sessionStroage中
 import {setUser} from '../../kits/storageHelper.js'
 
+// 导入注册组件
+import Register from '../../components/account/Register.js'
 
 class login extends React.Component {
 
@@ -80,6 +82,8 @@ class login extends React.Component {
                             </Form>
                         </TabPane>
                         <TabPane tab={<span><Icon type="android" />注册</span>} key="2">
+                        {/* 使用注册组件 */}
+                        <Register></Register>
                         </TabPane>
                     </Tabs>
                 </Col>
