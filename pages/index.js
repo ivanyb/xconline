@@ -1,6 +1,9 @@
 // 导入index.less样式
 import css from './index.less'
 
+// 导入next路由标签Link
+import Link from 'next/link'
+
 // 导入antd相关组件
 import { Carousel, Menu, Icon, Row, Col, message } from 'antd';
 
@@ -149,17 +152,19 @@ export default class extends React.Component {
 
                     {
                         this.state.topList && this.state.topList.map((item, index) => (
-                            <li key={index} className={css.recom_item}>
-                                <a href="#">
-                                    <p><img src={item.img_url} width="100%" alt="" />
-                                        <span className={css.lab}>HOT</span>
-                                    </p>
-                                    <ul>
-                                        <li style={{ height: 36 }}>{item.title}</li>
-                                        <li className={css.li2}><span>{item.lesson_level}</span> <em> · </em> {item.click}人在学习</li>
-                                    </ul>
-                                </a>
-                            </li>
+                            <Link href={'/course/detail?cid='+item.id}>
+                                <li key={index} className={css.recom_item}>
+                                    <a href="#">
+                                        <p><img src={item.img_url} width="100%" alt="" />
+                                            <span className={css.lab}>HOT</span>
+                                        </p>
+                                        <ul>
+                                            <li style={{ height: 36 }}>{item.title}</li>
+                                            <li className={css.li2}><span>{item.lesson_level}</span> <em> · </em> {item.click}人在学习</li>
+                                        </ul>
+                                    </a>
+                                </li>
+                            </Link>
                         ))
                     }
 
@@ -167,20 +172,20 @@ export default class extends React.Component {
                 {/* 3.0 精品课程布局-end */}
 
                 {/* 4.0 分类分组课程数据-begin */}
-                
+
                 {
                     this.state.groupList && this.state.groupList.map((item, index) => (
                         <div key={index}>
-                        <br /> <br />
+                            <br /> <br />
                             <Row>
                                 <Col span="8"><h2>{item.title}</h2></Col>
                                 <Col span="8" className={css.typesli}>
                                     <ul>
-                                       {
-                                           this.state.types && this.state.types.map((type,tindex)=>(
-                                            <li key={tindex}><a className={tindex==0?css.active:''} href="#">{type.title}</a></li>
-                                           ))
-                                       }
+                                        {
+                                            this.state.types && this.state.types.map((type, tindex) => (
+                                                <li key={tindex}><a className={tindex == 0 ? css.active : ''} href="#">{type.title}</a></li>
+                                            ))
+                                        }
                                     </ul>
                                 </Col>
                                 <Col className={css.typesli} span="2" offset="6"><a href="#">查看全部</a></Col>
@@ -262,10 +267,6 @@ export default class extends React.Component {
                       }
                       .ant-menu-item-group-list li{
                           display:inline-block !important;
-                      }
-
-                      p{
-                        margin-bottom:0px;
                       }
                       /*首页轮播和分类end*/ 
                   `}</style>
