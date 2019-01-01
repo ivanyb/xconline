@@ -1,5 +1,6 @@
 // 实现页面获取url传入参数值步骤1：导入withRouter方法
 import { withRouter } from 'next/router'
+import Router from 'next/router'
 
 import css from './detail.less'
 
@@ -8,6 +9,8 @@ const TabPane = Tabs.TabPane;
 const Panel = Collapse.Panel;
 let seciontArr = []
 import fetchHelper from '../../kits/fetchHelper.js'
+
+import {connect} from 'react-redux'
 
 // 详情  -课程ID= {this.props.router.query.cid}
 /**
@@ -67,6 +70,41 @@ class detail extends React.Component {
         slist: null
     }
 
+    // 加入购物车
+    intoShopCar(){
+
+        // 2.0 调用接口完成数据的加入
+        fetchHelper.post('/ch/shop/postshopcar',{goods_id:this.props.router.query.cid})
+        .then(json=>{
+           // 1.0 判断用户是否登录
+           if(json.status == 2){
+            //表示未登录，则跳转到登录页面
+            message.warn('您未登录',1,()=>{
+                Router.push({pathname:'/account/login'})
+            })
+            return;
+           }
+
+            // 异常处理
+           if(json.status == 1){
+               message.error(json.message,1);
+               return;
+           }
+
+        // 正常的处理
+           message.success(json.message.text,1,()=>{
+            // 改变购物车按钮中的数据为 当前接口响应回来的 json.message.count
+            // 调用shopCarCountReducer.js中的shopCarCountReducer方法，而这个方法必须通过dispatch调用
+            // 所以必须将detail组件通过connect包装才能使用到dispatch
+            let totalCount = json.message.count
+            this.props.onChangeShopCarCount(totalCount)
+           })
+
+        })
+
+        // 3.0 将购物车图标上的数量+1
+    }
+
     render() {
         return (<div style={{ minHeight: 800 }}>
             {/* 1.0 课程详情banner部分-begin */}
@@ -85,7 +123,7 @@ class detail extends React.Component {
                         <p className={css.pic}><span className={css.new_pic}>特惠价格￥{this.props.pageProps.courseInfo.sell_price}</span>
                             <span className={css.old_pic}>原价￥{this.props.pageProps.courseInfo.market_price}</span></p>
                         <p className={css.info}>
-                            <a href="#">加入购物车</a>
+                            <a onClick={this.intoShopCar.bind(this)} href="#">加入购物车</a>
                             <span><em>难度等级</em>{this.props.pageProps.courseInfo.lesson_level}</span>
                             <span><em>课程时长</em>{this.props.pageProps.courseInfo.lesson_time}</span>
                             <span><em>评分</em>{this.props.pageProps.courseInfo.lesson_star}分</span>
@@ -187,4 +225,14 @@ class detail extends React.Component {
 // 就能够自动的将url参入的参数附加到 this.props.router.query对象中
 // query对象中的属性名称和url传入参数的key同名  
 // 例如： url: /course/detail?cid=102  在render函数中可以通过 this.props.router.query.cid获取到102这个值
-export default withRouter(detail)
+
+// connect函数接收两个参数分别将redux中定义好的reducer进行绑定
+const mapDispatchToProps = (dispatch)=>{
+    return {
+        // 定义一个方法，count就是当前用户购买的总商品数量
+        onChangeShopCarCount:(count)=>{
+            dispatch({type:'CHANGE_SHOP_CAR_COUNT',count:count})
+        }
+    }
+}
+export default connect(null,mapDispatchToProps)(withRouter(detail))

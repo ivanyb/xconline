@@ -45,7 +45,7 @@ import fetchHelper from '../../kits/fetchHelper.js'
             </div>
             <div className={css.right + " fr"}>
                 <div className={css.signin}>               
-                    <Badge count={5}>
+                    <Badge count={this.props.shopCarCountReducer.count}>
                        {/* 加入antd中的购物车图标 */}
                        <Icon type="shopping-cart" className={css.Icon} />
                     </Badge>
@@ -99,4 +99,10 @@ const mapDispathToProps = (dispatch)=>{
     }
  }
 
-export default connect(null,mapDispatchToProps)(head)
+ const mapStateToProps = (state)=>{
+     return {
+         ...state
+     }
+ }
+
+export default connect(mapStateToProps,mapDispatchToProps)(head)
