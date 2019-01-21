@@ -13,10 +13,12 @@ const config = {
 // 2.0 准备相关的reducer当前只有一个testReducer
 import testReducer from '../reducers/testReducer.js'
 import shopCarCountReducer from '../reducers/shopCarCountReducer.js'
+import selectedReducer from '../reducers/selectedReducer.js'
+import orderReducer from '../reducers/orderReducer.js'
 
 // 3.0 利用redux中的combineReducers来编译成根reducer
 const rootReducer = combineReducers({
-    testReducer,shopCarCountReducer
+    testReducer,shopCarCountReducer,selectedReducer,orderReducer
 });
 
 

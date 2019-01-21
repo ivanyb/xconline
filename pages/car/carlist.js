@@ -4,13 +4,16 @@ import {Row,Col,Button,Table ,message } from 'antd'
 
 import fetchHelper from '../../kits/fetchHelper.js'
 import Router from 'next/router'
+import {connect} from 'react-redux'
 
-export default class carlist extends React.Component {
-
- rowSelection = {
+ class carlist extends React.Component {
+    
+    rowSelection = {
         onChange: (selectedRowKeys, selectedRows) => {
         //   console.log(`selectedRowKeys: ${selectedRowKeys}`, 'selectedRows: ', selectedRows);
-
+      
+        // 将用户勾选好的课程数据用reudx管理起来
+        this.props.onSelectedCourse(selectedRows)
         // 计算用户勾选商品总价格,发现selectedRows里面每个数据都有一个sell_price，只要全部相加即可得到总价格
         if(selectedRows.length>0){
             let totalAmount = 0;
@@ -107,9 +110,15 @@ export default class carlist extends React.Component {
         // 删除成功
         message.success(json.message,1,()=>{
             // 重新刷新数据
-            this.getCarList()
+            this.getCarList();
+          
         })
 })
+    }
+
+    // 跳转到结算页面
+    check(){
+        Router.push({pathname:'/car/order'})
     }
 
     render() {
@@ -129,7 +138,7 @@ export default class carlist extends React.Component {
 
                         </Col>
                         <Col span="2"> 
-                        <Button type="primary" size="large" disabled={this.state.disabled}>结算</Button></Col>
+                        <Button type="primary" size="large" disabled={this.state.disabled} onClick={this.check.bind(this)}>结算</Button></Col>
                     </Row>
                 </div>
             </div>
@@ -143,3 +152,13 @@ export default class carlist extends React.Component {
 
     }
 }
+
+let mapDispatchToProps = (dispatch) =>{
+    return {
+        onSelectedCourse:(courseList)=>{
+            dispatch({type:'SELECTED_COURSE',courseList:courseList})
+        }
+    }
+}
+
+export default connect(null,mapDispatchToProps)(carlist)
