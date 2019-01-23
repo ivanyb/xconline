@@ -11,6 +11,7 @@ export default class layout extends React.Component {
          return (<div>
             {/* 1.0 头部 */}
             <Head></Head>
+          
             {/* 2.0 根据不同请求产生这个请求对应组件中的内容 */}
             <Component {...pageProps} />
             {/* 3.0 底部 */}

@@ -70,7 +70,9 @@ class head extends React.Component {
                             :
                             <span>
                                 {/* <!-- 登录以后要显示 --> */}
+                                <Link href={{pathname:'/mycenter/myorders'}}>
                                 <a href="#" ><Icon type="bell" theme="twoTone" />个人中心</a>
+                                </Link>
                                 <a href="#" >
                                     <img src="/static/img/asset-myImg.jpg" alt="" width="30px" height="30px" />
                                     {user.nick_name}</a>
