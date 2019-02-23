@@ -36,8 +36,28 @@ class detail extends React.Component {
 
     // 生命周期方法
     componentWillMount() {
+
+        // 获取到当前用户购买的课程列表
+        this.getmyCourseList()
+
+
         // 根据课程id获取大纲数据
         this.getSectionList()
+        
+    }
+
+    // 获取到当前用户购买的课程列表
+    getmyCourseList(){
+        fetchHelper.get('/ch/mycenter/getMyCourseList')
+        .then(json=>{
+            if(json.status == 0){
+               let clistnew = json.message.CourseList.filter(item=>item.goods_id == this.props.router.query.cid)
+               
+                this.setState({
+                    isview:clistnew.length>0
+                })
+            }
+        })
     }
 
     // 根据课程id获取大纲数据
@@ -67,7 +87,8 @@ class detail extends React.Component {
     }
 
     state = {
-        slist: null
+        slist: null,
+        isview:false
     }
 
     // 加入购物车
@@ -171,7 +192,11 @@ class detail extends React.Component {
                                                                 && this.state.slist.filter(item1 => item1.parent_id == item.id)
                                                                     .map((item2, index2) => (
                                                                         <Col span="12">
-                                                                            <a href="#">{item2.section_name}</a>
+                                                                            {
+                                                                                item2.is_free == 1?<span><a href="#">{item2.section_name}</a><span style={{color:'red'}}>免费</span></span>
+                                                                                : this.state.isview?<a href="#">{item2.section_name}</a>:
+                                                                                <span>{item2.section_name}</span>
+                                                                            }
                                                                         </Col>
                                                                     ))
                                                             }
