@@ -193,8 +193,10 @@ class detail extends React.Component {
                                                                     .map((item2, index2) => (
                                                                         <Col span="12">
                                                                             {
-                                                                                item2.is_free == 1?<span><a href="#">{item2.section_name}</a><span style={{color:'red'}}>免费</span></span>
-                                                                                : this.state.isview?<a href="#">{item2.section_name}</a>:
+                                                                                item2.is_free == 1?<span>
+                                                                                    <a onClick={()=>{Router.push({pathname:'/course/show',query:{sid:item2.id,cid:item2.goods_id}})}} >{item2.section_name}</a><span style={{color:'red'}}>免费</span></span>
+                                                                                : this.state.isview?
+                                                                                <a onClick={()=>{Router.push({pathname:'/course/show',query:{sid:item2.id,cid:item2.goods_id}})}}>{item2.section_name}</a>:
                                                                                 <span>{item2.section_name}</span>
                                                                             }
                                                                         </Col>
