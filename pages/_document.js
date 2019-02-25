@@ -13,8 +13,8 @@ export default class MyDocument extends Document {
       <html>
         <Head>
             {/* 导入全局样式文件，使得所有的antd组件均能应用上样式 */}
-            <link rel="stylesheet" href="../static/css/antd.css"/>
-            <link rel="stylesheet" href="../static/css/base.css"/>
+            <link rel="stylesheet" href="/static/css/antd.css"/>
+            <link rel="stylesheet" href="/static/css/base.css"/>
         </Head>
         <body className="custom_class">
           <Main />

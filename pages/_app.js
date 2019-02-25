@@ -1,7 +1,7 @@
 import React from 'react'
 import App, { Container } from 'next/app'
 import Layout from '../components/layout/layout'
-
+import AdminLayout from '../components/admin/layout.js'
 // redux步骤1：导入store/index  其中persistor是store持久化使用
 import {initStore,persistor} from '../store/index.js'
 
@@ -42,10 +42,13 @@ import 'isomorphic-fetch'
                 <Provider store={store}>
                 {/* // store持久化步骤3 将PersistGate组件当做layout的根组件 */}
                 <PersistGate persistor={persistor}>
-                    {/* 改造成利用Layout组件替换此处的Component,将Component组件提取到layout组件中进行执行 */}                
-                    <Layout Component={Component} {...pageProps}>
-
-                    </Layout>
+                    {/* 改造成利用Layout组件替换此处的Component,将Component组件提取到layout组件中进行执行 */} 
+                    {
+                        this.props.pageProps && this.props.pageProps.isadmin?
+                        <AdminLayout Component={Component} {...pageProps}></AdminLayout>
+                        :
+                         <Layout Component={Component} {...pageProps}></Layout>
+                    }  
                  </PersistGate>
                 </Provider>
             </Container>
