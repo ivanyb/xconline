@@ -261,7 +261,7 @@ export default class clist extends React.Component {
                                     <Button>
                                         <Icon type="edit" theme="filled" title="编辑" />
                                     </Button>
-                                    <Link href={{pathname:'/admin/outline/list',query:{lessonid:52}}}>
+                                    <Link href={{pathname:'/admin/outline/list',query:{lessonid:item.id}}}>
                                     <Button title={'课程大纲'}>
                                         <Icon type="database" theme="filled" />
                                     </Button>

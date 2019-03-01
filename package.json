@@ -3,7 +3,7 @@
   "scripts": {
     "dev": "next -p 85",
     "build": "next build",
-    "start": "next start -p 87"
+    "start": "next start -p 877"
   },
   "dependencies": {
     "@zeit/next-css": "1.0.1",
