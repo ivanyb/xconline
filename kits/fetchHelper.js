@@ -7,6 +7,8 @@ function fetchHelper(urlPath,options){
     return fetch(baseUrl+urlPath,options)
 }
 
+fetchHelper.url = baseUrl;
+
 // 2.0 封装好get请求
 fetchHelper.get = function(urlPath) {
     return fetch(baseUrl+urlPath,{
