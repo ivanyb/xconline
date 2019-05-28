@@ -3,7 +3,7 @@ import css from './index.less'
 
 // 导入next路由标签Link
 import Link from 'next/link'
-
+import Head from 'next/head'
 // 导入antd相关组件
 import { Carousel, Menu, Icon, Row, Col, message } from 'antd';
 
@@ -96,14 +96,19 @@ export default class extends React.Component {
 
     render() {
         return (<div>
-
+        <Head>
+            <title>学成在线-首页</title>
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
             <div className={css.banner_roll}>
                 {/* 1.0实现轮播图-begin 使用antd中的走马灯组件：Carousel */}
                 <Carousel autoplay>
                     {
                         this.props.pageProps.sliderlist.map((item, index) => (
                             <div key={index}>
-                                <img src={item.img_url} />
+                              <Link href={'/course/detail?cid='+item.id}>
+                                <img src={item.img_url} style={{cursor:"pointer"}} />
+                                </Link>
                             </div>
                         ))
                     }
@@ -144,7 +149,11 @@ export default class extends React.Component {
                 {/* 3.0 精品课程布局-begin */}
                 <Row>
                     <Col span="12"><h2>精品课程</h2></Col>
-                    <Col className={css.typesli} span="2" offset="10"><a href="#">查看全部</a></Col>
+                    <Col className={css.typesli} span="2" offset="10">
+                    <Link href={'/course/clist'}>
+                    <a href="#">查看全部</a>
+                    </Link>
+                    </Col>
                 </Row>
                 <br />
                 <ul>
@@ -188,7 +197,9 @@ export default class extends React.Component {
                                         }
                                     </ul>
                                 </Col>
-                                <Col className={css.typesli} span="2" offset="6"><a href="#">查看全部</a></Col>
+                                <Col className={css.typesli} span="2" offset="6"> <Link href={'/course/clist'}>
+                    <a href="#">查看全部</a>
+                    </Link></Col>
                             </Row>
                             <br /><br />
                             <Row>

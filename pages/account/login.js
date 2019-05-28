@@ -13,6 +13,7 @@ import {setUser} from '../../kits/storageHelper.js'
 
 // 导入注册组件
 import Register from '../../components/account/Register.js'
+import Head from 'next/head'
 
 class login extends React.Component {
 
@@ -48,6 +49,9 @@ class login extends React.Component {
 
         //3.0 布局整个登录页面的样式
         return (<div style={{ minHeight: '800px' }}>
+         <Head>
+                <title>学成在线-登录/注册</title>
+            </Head>
             <Row>
                 <Col span="10" offset="7">
                     {/* 3.0.1 利用Tabs去做一个注册和登录的切换功能 */}

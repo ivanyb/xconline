@@ -39,8 +39,12 @@ class head extends React.Component {
                 <Link href={{pathname:'/index'}}>
                 <a className={css.a} href="">首页</a>
                 </Link>
+                <Link href={{pathname:'/course/clist'}}>
                 <a className={css.a} href="">课程</a>
+                </Link>
+                <Link href={{pathname:'/index'}}>
                 <a className={css.a} href="">职业规划</a>
+                </Link>
             </div>
             <div className={css.input + " fl"}>
                 <input type="text" className="fl" placeholder="输入查询关键字" />
@@ -78,7 +82,7 @@ class head extends React.Component {
                                 </Link>
                                 <a href="#" >
                                     <img src="/static/img/asset-myImg.jpg" alt="" width="30px" height="30px" />
-                                    {user.nick_name}</a>
+                                    {user.uname}</a>
                                 <a href="#" onClick={() => { this.logout() }}>退出</a>
                             </span>
                     }

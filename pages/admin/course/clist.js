@@ -7,6 +7,7 @@ const Option = Select.Option;
 import { Card } from 'antd';
 import fetchHelper from '../../../kits/fetchHelper.js'
 import { isNullOrUndefined } from 'util';
+import Router from 'next/router'
 
 export default class clist extends React.Component {
     static async getInitialProps() {
@@ -98,7 +99,9 @@ export default class clist extends React.Component {
                 return;
             }
             if(json.status == 1){
-                message.error(json.message,1);
+                message.error(json.message,1,()=>{
+                    Router.push({pathname:'/index'});
+                });
                 return;
             }
 

@@ -11,6 +11,7 @@ let seciontArr = []
 import fetchHelper from '../../kits/fetchHelper.js'
 
 import {connect} from 'react-redux'
+import Head from 'next/head'
 
 // 详情  -课程ID= {this.props.router.query.cid}
 /**
@@ -128,6 +129,10 @@ class detail extends React.Component {
 
     render() {
         return (<div style={{ minHeight: 800 }}>
+             <Head>
+            <title>学成在线-课程详情页</title>
+            <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+            </Head>
             {/* 1.0 课程详情banner部分-begin */}
             <div className={css.article_banner}>
                 <div className={css.banner_bg}></div>

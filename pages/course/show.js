@@ -179,7 +179,28 @@ import {fmtDate} from '../../kits/kits.js'
                 message.warn(json.message,1,()=>{
                     Router.push({pathname:'/account/login'})
                 })
+                return;
             }
+
+            if(json.status == 1){
+                message.error(json.message,1);
+                return;
+            }
+
+            this.getMyCourse()
+        })
+    }
+
+    getMyCourse(){
+        fetchHelper.get('/ch/mycenter/getMyCourseList').then(json=>{
+            if(json.status == 1){
+                message.error(json.message,1);
+                return;
+            }
+
+            this.setState({
+                mycourse:json.message.CourseList
+            })
         })
     }
 
@@ -210,7 +231,8 @@ import {fmtDate} from '../../kits/kits.js'
         pageIndex:1,
         pageSize:1,
         totalCount:0,
-        visible:false
+        visible:false,
+        mycourse:null
     }
 
 
@@ -244,13 +266,31 @@ render() {
                            this.state.outlineList 
                            && this.state.outlineList.filter(c=>c.parent_id == item.id)
                            .map((item1,index1)=>(
+                               item1.is_free == 1 ?
                             <Col span="24">
                                 <a onClick={()=>{this.reload(item1.id)}}
                                 className={item1.id==this.props.router.query.sid?css.active:''}
                                  key={item1.id}>
-                                    <Icon type="play-circle" /> {item1.section_name}<span style={{color:'red'}}> (免费)</span>
+                                <Icon type="play-circle" /> {item1.section_name}<span style={{color:'red'}}> (免费)</span>
                                 </a>
-                            </Col>   
+                            </Col>:
+                            (this.state.mycourse
+                             && this.state.mycourse.filter(c=>c.goods_id == this.props.router.query.cid).length>0)?
+                            <Col span="24">
+                                <a onClick={()=>{this.reload(item1.id)}}
+                                className={item1.id==this.props.router.query.sid?css.active:''}
+                                key={item1.id}> 
+                                <Icon type="play-circle" /> {item1.section_name}                             
+                                </a>
+                            </Col>:
+                            <Col span="24">
+                            <a
+                            className={css.hui}
+                            key={item1.id}>
+                            <Icon type="play-circle" /> {item1.section_name}
+                            </a>
+                        </Col>
+
                            ))
                       }
                                                      
