@@ -74,7 +74,7 @@ class head extends React.Component {
                             :
                             <span>
                                 {/* <!-- 登录以后要显示 --> */}
-                                <Link href={{pathname:'/admin/course/clist'}}>
+                                <Link href={{pathname:'/admin/check'}}>
                                 <a href="#" ><Icon type="bell" theme="twoTone" />后台管理</a>
                                 </Link>
                                 <Link href={{pathname:'/mycenter/myorders'}}>
