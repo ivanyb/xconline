@@ -69,8 +69,9 @@ class pay extends React.Component {
             {/* 订单信息 */}
             <div className={css.CashierBodyTop}>
                 <div className={css.CashierLeft}>
-                    <p className={css.cashierTitle}>产品名称：<span id="bookName">
-                        {this.props.orderReducer.state.remark}
+                    <p className={css.cashierTitle}>产品名称：
+                    <span id="bookName" dangerouslySetInnerHTML={{ __html: this.props.orderReducer.state.remark }}>
+                        
                     </span></p>
                     <p>业务订单：<span>{this.props.orderReducer.state.order_no}</span></p>
                 </div>
