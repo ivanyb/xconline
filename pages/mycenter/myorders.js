@@ -83,9 +83,9 @@ class myorderlist extends React.Component {
                 {/* 左边菜单 */}
                 <Row>
                     <Col span="6">
-                        <Affix offsetTop={this.state.top}>
+                        
                             <MyLeft mid="2"></MyLeft>
-                        </Affix>
+                      
                     </Col>
                     {/* 左边菜单 */}
 

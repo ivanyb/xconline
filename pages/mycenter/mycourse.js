@@ -61,9 +61,9 @@ class courselist extends React.Component {
                 {/* 左边菜单 */}
                 <Row>
                     <Col span="6">
-                        <Affix offsetTop={this.state.top}>
+                      
                             <MyLeft></MyLeft>
-                        </Affix>
+                       
                     </Col>
                     {/* 左边菜单 */}
 
