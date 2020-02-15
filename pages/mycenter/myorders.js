@@ -8,7 +8,7 @@ import css from './myorder.less'
 import fetchHelper from '../../kits/fetchHelper.js'
 import Router from 'next/router'
 import { fmtDate } from '../../kits/kits.js';
-
+import Link from 'next/link'
 class myorderlist extends React.Component {
     state = {
         top: 80,
@@ -149,7 +149,7 @@ class myorderlist extends React.Component {
                                                         <Collapse bordered={false} defaultActiveKey={['0']}>
                                                             <Panel header="查看此订单更多课程" key="1">
                                                                 {
-                                                                    item.order_goods_list && item.order_goods_list.slice(1).map((item1, index1) => {
+                                                                    item.order_goods_list && item.order_goods_list.slice(1,1000).map((item1, index1) => (
                                                                         <Row key={index}>
                                                                             <Col span="8">
                                                                                 <div className={css.col_md_2}>
@@ -158,7 +158,7 @@ class myorderlist extends React.Component {
                                                                             </Col>
                                                                             <Col span="15" offset="1">
                                                                                 <div className={css.item_cent + " " + css.col_md_6}>
-                                                                                    <div className={css.title}>{item1.goods_title}</div>
+                                                                                    <div style={{}}>{item1.goods_title}</div>
                                                                                     <div className={css.star_show}>
                                                                                         <div className={css.score}><i></i></div>
                                                                                     </div>
@@ -167,7 +167,7 @@ class myorderlist extends React.Component {
                                                                                 </div>
                                                                             </Col>
                                                                         </Row>
-                                                                    })
+                                                                    ))
                                                                 }
 
 
@@ -185,8 +185,11 @@ class myorderlist extends React.Component {
                                                         <Col span="5">
                                                             {
                                                                 item.status == 0 ? <div className={css.item_rit + " " + css.col_md_2}>
+                                                                <Link href= {"/car/pay?orderid="+item.id}>
                                                                 <a href="#" class="">去 支 付 </a>
-                                                                <a href="#">取消订单</a>
+                                                                </Link>
+                                                               
+                                                                {/* <a href="#">取消订单</a> */}
                                                              </div>:''
                                                             }
                                                            

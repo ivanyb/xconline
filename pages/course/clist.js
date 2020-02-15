@@ -1,6 +1,7 @@
 import { connect } from 'react-redux'
 import { Row, Col, Collapse,Pagination ,Spin, Alert } from 'antd'
 const Panel = Collapse.Panel
+import { withRouter } from 'next/router'
 
 import featchHelper from '../../kits/fetchHelper.js'
 import css from './clist.less'
@@ -20,7 +21,33 @@ class clistse extends React.Component {
     }
 
     componentWillMount() {
-        this.getcourselistByPage();
+        let cate_top_id = this.props.router.query.lv1;
+        let cate_id = this.props.router.query.lv2;
+        cate_top_id = cate_top_id ?cate_top_id:-1;
+        cate_id = cate_id ?cate_id:-1;
+        this.setState({
+            cate_top_id:cate_top_id,
+            cate_id:cate_id
+        })
+      
+        setTimeout(()=>{
+            this.changeLi1('clist1',cate_top_id,null);
+            this.changeLi1('clist2',cate_id,null);
+            let lv1obj = document.getElementById('lv1'+cate_top_id);
+            let lv2obj = document.getElementById('lv2'+cate_id);
+            let lv3obj = document.getElementById('lv3-1');
+            if(!lv1obj){
+                lv1obj = document.getElementById('lv1-1');
+            }
+            if(!lv2obj){
+                lv2obj = document.getElementById('lv2-1');
+            }
+            lv1obj && lv1obj.setAttribute('class', 'active');
+            lv2obj && lv2obj.setAttribute('class', 'active');
+            lv3obj && lv3obj.setAttribute('class', 'active');
+        },0)
+
+        this.getcourselistByPage(cate_top_id,cate_id);
 
         this.setState({
             toplist: this.props.pageProps.cate_Top_List,
@@ -30,7 +57,7 @@ class clistse extends React.Component {
     }
 
     changeLi1(refstring, cid, e) {
-        e.stopPropagation()       
+       e && e.stopPropagation()
         if (refstring == 'clist1') {
             this.getotherlist(cid);
             this.clearSelect('clist1');           
@@ -60,7 +87,7 @@ class clistse extends React.Component {
                 cid,this.state.pageIndex,
                 this.state.pageSize)
         }
-        e.currentTarget.setAttribute('class', 'active');
+        e && e.currentTarget.setAttribute('class', 'active');
     }
 
     clearSelect(refstring){
@@ -92,6 +119,7 @@ class clistse extends React.Component {
     }
 
     getcourselistByPage(cate_top_id=-1,cate_id=-1,type=-1,pageIndex=1,pageSize=10){
+        // console.log(cate_top_id,cate_id)
         this.setState({
             loading:true
         })
@@ -105,6 +133,15 @@ class clistse extends React.Component {
                 loading:false
             })
         })
+    }
+
+    collapsechange(){       
+        let cate_id = this.props.router.query.lv2;
+        setTimeout(()=>{    
+            let lv2obj = document.getElementById('lv2'+cate_id);           
+            lv2obj && lv2obj.setAttribute('class', 'active');
+        },0)
+
     }
 
     changePage(pageNumber){
@@ -147,7 +184,7 @@ class clistse extends React.Component {
                         <Col span="22">
                             <ul ref="clist1">
                                 {this.state.toplist&&this.state.toplist.map((item, i) => (
-                                    <li><a onClick={e => this.changeLi1('clist1', item.id, e)} className={item.id < 0 ? 'active' : ''}>{item.title}</a></li>
+                                    <li><a id={'lv1'+item.id} onClick={e => this.changeLi1('clist1', item.id, e)} className={item.id < 0 ? 'active' : ''}>{item.title}</a></li>
                                 ))}
                             </ul>
                         </Col>
@@ -156,12 +193,12 @@ class clistse extends React.Component {
                         <Col className={css.bold} span="2">二级分类：</Col>
                         <Col span="22">
                             <ul ref="clist2">
-                                <Collapse bordered={false} defaultActiveKey={["-1"]} >
+                                <Collapse onChange = {()=>{this.collapsechange();}} bordered={false} defaultActiveKey={["0"]} >
                                     <Panel key="0" header={this.state.otherlist&&this.state.otherlist.slice(0, 10).map((item, i) => (
-                                        <li><a onClick={e => this.changeLi1('clist2', item.id, e)} className={item.id < 0 ? 'active' : ''}>{item.title}</a></li>
+                                        <li><a id={'lv2'+item.id}  onClick={e => this.changeLi1('clist2', item.id, e)} className={item.id < 0 ? 'active' : ''}>{item.title}</a></li>
                                     ))}>
                                         {this.state.otherlist&&this.state.otherlist.slice(10, 10000).map((item, i) => (
-                                            <li><a onClick={e => this.changeLi1('clist2', item.id, e)} className={item.id < 0 ? 'active' : ''}>{item.title}</a></li>
+                                            <li><a id={'lv2'+item.id} onClick={e => this.changeLi1('clist2', item.id, e)} className={item.id < 0 ? 'active' : ''}>{item.title}</a></li>
                                         ))}
                                     </Panel>
 
@@ -174,7 +211,7 @@ class clistse extends React.Component {
                         <Col span="22">
                             <ul ref="clist3">
                                 {this.state.ctypes&&this.state.ctypes.map((item, i) => (
-                                    <li><a onClick={e => this.changeLi1('clist3', item.tid, e)} className={item.tid < 0 ? 'active' : ''}>{item.title}</a></li>
+                                    <li><a id={'lv3'+item.tid} onClick={e => this.changeLi1('clist3', item.tid, e)} className={item.tid < 0 ? 'active' : ''}>{item.title}</a></li>
                                 ))}
                             </ul>
                         </Col>
@@ -201,7 +238,7 @@ class clistse extends React.Component {
                                 <Link href={'/course/detail?cid='+item.id}>
                                 <li className={css.recom_item} key={item.id}>
                                 <a href="#">
-                                    <p><img src={item.img_url} width="100%" alt="" />
+                                    <p><img src={item.img_url} style={{ height: 102,width:168 }} alt="图片" />
                                         <span className={css.lab}>HOT</span>
                                     </p>
                                     <ul>
@@ -323,4 +360,4 @@ const mapDispatchToProps = (dispatch) => {
         }
     }
 }
-export default connect(mapStateToProps, mapDispatchToProps)(clistse)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(clistse))

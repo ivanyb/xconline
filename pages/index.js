@@ -4,6 +4,7 @@ import css from './index.less'
 // 导入next路由标签Link
 import Link from 'next/link'
 import Head from 'next/head'
+import Router from 'next/router'
 // 导入antd相关组件
 import { Carousel, Menu, Icon, Row, Col, message } from 'antd';
 
@@ -94,6 +95,10 @@ export default class extends React.Component {
         this.getGroupList();
     }
 
+    tocourselist(lv1,lv2){
+        Router.push({pathname:'/course/clist',query: { lv1: lv1,lv2:lv2 }})
+    }
+
     render() {
         return (<div>
         <Head>
@@ -130,7 +135,9 @@ export default class extends React.Component {
                                                 {
                                                     // 2.0.3 遍历每一个分组下面的课程数据
                                                     item1.subcates.map((item2, index1) => (
-                                                        <Menu.Item key={item2.id}>{item2.title}</Menu.Item>
+                                                       
+                                                     <Menu.Item key={item2.id} onClick={()=>{this.tocourselist(item.id,item2.id)}}>{item2.title}</Menu.Item>
+                                                      
                                                     ))
                                                 }
                                             </MenuItemGroup>
@@ -164,7 +171,7 @@ export default class extends React.Component {
                             <Link href={'/course/detail?cid='+item.id}>
                                 <li key={index} className={css.recom_item}>
                                     <a href="#">
-                                        <p><img src={item.img_url} width="100%" alt="" />
+                                        <p><img src={item.img_url} style={{ height: 139,width:229 }}  alt="" />
                                             <span className={css.lab}>HOT</span>
                                         </p>
                                         <ul>
@@ -191,13 +198,13 @@ export default class extends React.Component {
                                 <Col span="8" className={css.typesli}>
                                     <ul>
                                         {
-                                            this.state.types && this.state.types.map((type, tindex) => (
-                                                <li key={tindex}><a className={tindex == 0 ? css.active : ''} href="#">{type.title}</a></li>
-                                            ))
+                                            // this.state.types && this.state.types.map((type, tindex) => (
+                                            //     <li key={tindex}><a className={tindex == 0 ? css.active : ''} href="#">{type.title}</a></li>
+                                            // ))
                                         }
                                     </ul>
                                 </Col>
-                                <Col className={css.typesli} span="2" offset="6"> <Link href={'/course/clist'}>
+                                <Col className={css.typesli} span="2" offset="6"> <Link href={'/course/clist?lv1='+item.id}>
                     <a href="#">查看全部</a>
                     </Link></Col>
                             </Row>

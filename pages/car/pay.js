@@ -5,6 +5,7 @@ import QRCode from 'qrcode.react'
 import fetchHelper from '../../kits/fetchHelper.js'
 import { message } from 'antd'
 import Router from 'next/router'
+import { withRouter } from 'next/router'
 
 let intervalHander = null
 
@@ -19,7 +20,7 @@ class pay extends React.Component {
         let orderno = this.props.orderReducer.state.order_no
         let amount = this.props.orderReducer.state.amount
 
-        console.log(orderid, orderno, amount)
+        // console.log(orderid, orderno, amount)
 
         fetchHelper.post('/ch/shop/wxpay', { order_id: orderid, out_trade_no: orderno, nonce_str: amount })
             .then(json => {
@@ -79,8 +80,67 @@ class pay extends React.Component {
     }
 
     componentWillMount() {
-        // 调用支付url获取连接接口
+        let orderid = this.props.router.query.orderid;
+        if(orderid){
+            // 从我的订单页面中点击支付而来（会在url后面传入参数 ?orderid=xxx）
+            this.getorder(orderid);
+        }else{
+        // 从购物车下单而来，不带有orderid参数，数据从redux中获取，调用支付url获取连接接口
         this.getWXPayUrl()
+        }
+    }
+
+    getorder(orderid){
+         // 1.0 定义一个url
+         let url = `/ch/mycenter/getMyOrderListByPage/-1?pageIndex=1&pageSize=100`
+         // 2.0 发出fetch
+         fetchHelper.get(url)
+             .then(json => {
+                 // 3.0 判断是否有登录
+                 if (json.status == 2) {
+                     message.warn('您未登录', 1, () => {
+                         Router.push({ pathname: '/account/login' })
+                     })
+                     return
+                 }
+ 
+                 // 3.0.1 如果报错则提示
+                 if (json.status == 1) {
+                     message.error(json.message, 1, () => {
+                         Router.push({ pathname: '/account/login' })
+                     })
+                     return
+                 }
+ 
+                 // 3.0.2 如果处理成功则将数据赋值给state.orderlist
+                //  console.log(json.message)
+                let orderInfo= json.message.orderList.filter(item=>item.id == orderid);
+                
+                 if(!orderInfo || orderInfo.length<=0){
+                    message.error('订单数据异常，请重新勾选到购物车下单');
+                    return;
+                 }
+
+                 if(!orderInfo[0].order_goods_list || orderInfo[0].order_goods_list.length<=0){
+                    message.error('订单数据异常，请重新勾选到购物车下单');
+                    return;
+                }
+
+                // 设置redux数据
+                let remark = '';
+              
+                orderInfo[0].order_goods_list.map(goods=>{
+                    remark += goods.goods_title + '&nbsp;&nbsp; 原价：￥'+goods.goods_market_price + '<br /> ';
+                })
+                let reduxOrder = {
+                    order_id:orderInfo[0].id,
+                    order_no:orderInfo[0].order_no,
+                    amount:orderInfo[0].payable_amount,
+                    remark:remark
+                };
+                this.props.onSetOrderInfo(reduxOrder);
+ 
+             })
     }
 
     // 离开页面之前清除定时器
@@ -135,8 +195,11 @@ let mapDispatchToProps = (dispatch) => {
         // 定义一个方法，count就是当前用户购买的总商品数量
         onChangeShopCarCount: (count) => {
             dispatch({ type: 'CHANGE_SHOP_CAR_COUNT', count: count })
+        },
+        onSetOrderInfo:(orderinfo)=>{
+            dispatch({type:'SET_ORDER',orderinfo:orderinfo})
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(pay)
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(pay))
