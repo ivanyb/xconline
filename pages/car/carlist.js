@@ -86,6 +86,11 @@ import {connect} from 'react-redux'
                 return
             }
 
+              // 更新head购物车中的数量
+              let count = json.message.length;
+
+              this.props.onChangeShopCarCount(count);
+
             // 将购物车的数据赋值给state.data
             this.setState({
                 data:json.message
@@ -110,7 +115,7 @@ import {connect} from 'react-redux'
         // 删除成功
         message.success(json.message,1,()=>{
             // 重新刷新数据
-            this.getCarList();
+            this.getCarList();          
           
         })
 })
@@ -157,6 +162,10 @@ let mapDispatchToProps = (dispatch) =>{
     return {
         onSelectedCourse:(courseList)=>{
             dispatch({type:'SELECTED_COURSE',courseList:courseList})
+        },
+          // 定义一个方法，count就是当前用户购买的总商品数量
+          onChangeShopCarCount:(count)=>{
+            dispatch({type:'CHANGE_SHOP_CAR_COUNT',count:count})
         }
     }
 }

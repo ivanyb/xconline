@@ -1,6 +1,6 @@
 // 1.0 导入样式
 import css from './login.less'
-
+import { connect } from 'react-redux'
 import fetchHelper from '../../kits/fetchHelper.js'
 
 // 2.0 导入antd这个ui组件中的  Tabs, Icon,Form,, Input, Button
@@ -33,6 +33,9 @@ class login extends React.Component {
                         // 登录成功以后
                         //  1、将用户信息保存到sessionStorage中
                         setUser(json.message.user)
+
+                        this.getCarList();
+                        
                         //  2、跳转到首页  /index
                         message.success(json.message.text,1,()=>{
                             window.location = '/index'
@@ -43,7 +46,19 @@ class login extends React.Component {
         });
     }
 
-   
+    // 获取购物车数量
+    getCarList(){
+        fetchHelper.get('/ch/shop/getshopcarlist')
+        .then(json=>{
+            if(json.status == 0){
+                if(json.message && Array.isArray(json.message)){
+                    let count =  json.message.length;
+                    this.props.onChangeShopCarCount(count);
+                }
+            }
+        })
+    }
+
     render() {
         const { getFieldDecorator } = this.props.form;
 
@@ -105,8 +120,24 @@ class login extends React.Component {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {        
+         // 定义一个方法，count就是当前用户购买的总商品数量
+         onChangeShopCarCount:(count)=>{
+            dispatch({type:'CHANGE_SHOP_CAR_COUNT',count:count})
+        }
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        ...state
+    }
+}
+
 // 利用Form.create高阶函数将form对象附加到login组件中的props中
-const WrappedNormalLoginForm = Form.create()(login);
+const commlogin = connect(mapStateToProps, mapDispatchToProps)(login)
+const WrappedNormalLoginForm = Form.create()(commlogin);
 
 // export default WrappedNormalLoginForm
 export default  WrappedNormalLoginForm

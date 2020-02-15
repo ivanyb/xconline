@@ -33,6 +33,9 @@ class pay extends React.Component {
                     payUrl: json.message.code_url
                 })
 
+                // 删除购物车中已经下单的课程数据
+                this.delcourses();
+
                 // 开启定时器轮询支付状态接口
                 intervalHander = setInterval(() => {
                     fetchHelper.post('/ch/shop/checkpay', { order_id: orderid, out_trade_no: orderno, nonce_str: amount })
@@ -51,6 +54,30 @@ class pay extends React.Component {
                 }, 3000);
             })
     }
+
+    // 删除购物车中已经下单的课程数据
+    delcourses() {
+        if (this.props.selectedReducer && this.props.selectedReducer.state) {
+            // 获取购物车课程总数量
+            // console.log(this.props.shopCarCountReducer)
+            let shopCount = this.props.shopCarCountReducer.count;
+
+            this.props.selectedReducer.state.map(item => {
+                fetchHelper.get('/ch/shop/deleteshopcar/' + item.shop_car_id)
+                    .then(json => {
+                        if (json.status == 0) {
+                            shopCount -= 1;
+                            if(shopCount <0){
+                                shopCount = 0;
+                            }
+
+                            this.props.onChangeShopCarCount(shopCount);
+                        }
+                    })
+            });
+        }
+    }
+
     componentWillMount() {
         // 调用支付url获取连接接口
         this.getWXPayUrl()
@@ -71,8 +98,8 @@ class pay extends React.Component {
                 <div className={css.CashierLeft}>
                     <p className={css.cashierTitle}>产品名称：
                     <span id="bookName" dangerouslySetInnerHTML={{ __html: this.props.orderReducer.state.remark }}>
-                        
-                    </span></p>
+
+                        </span></p>
                     <p>业务订单：<span>{this.props.orderReducer.state.order_no}</span></p>
                 </div>
                 <div className={css.CashierRight}>
@@ -102,4 +129,14 @@ let mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, null)(pay)
+
+let mapDispatchToProps = (dispatch) => {
+    return {
+        // 定义一个方法，count就是当前用户购买的总商品数量
+        onChangeShopCarCount: (count) => {
+            dispatch({ type: 'CHANGE_SHOP_CAR_COUNT', count: count })
+        }
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(pay)
