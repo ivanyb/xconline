@@ -119,12 +119,13 @@ class detail extends React.Component {
             // 调用shopCarCountReducer.js中的shopCarCountReducer方法，而这个方法必须通过dispatch调用
             // 所以必须将detail组件通过connect包装才能使用到dispatch
             let totalCount = json.message.count
+              // 3.0 将购物车图标上的数量+1
             this.props.onChangeShopCarCount(totalCount)
            })
 
         })
 
-        // 3.0 将购物车图标上的数量+1
+      
     }
 
     render() {

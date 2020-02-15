@@ -22,6 +22,9 @@ class head extends React.Component {
                     // 2.0 清除浏览器中的sessionStroage中的当前用户信息
                     removeUser()
 
+                    // 用户退出后，购物车数量重置
+                    this.props.onChangeShopCarCount(0);
+
                     // 3.0 跳转到登录页面
                     window.location = '/account/login'
                 }
@@ -92,17 +95,6 @@ class head extends React.Component {
     }
 }
 
-// 2.0 利用connect函数将组件对象包装以后返回
-// 2.0.1 注册一个dispatch触发对象到head组件的props中
-const mapDispathToProps = (dispatch) => {
-    return {
-        onChangeColor: (color) => {
-            // 调用dispatch完成store中的state属性的改变
-            dispatch({ type: 'CHANGE_COLOR', color: color })
-        }
-    }
-}
-
 /**
  * connect有两个参数:
  * 1、第一个参数本质上是一个函数，可以将store中的state绑定到head组件中的props中
@@ -115,6 +107,10 @@ const mapDispatchToProps = (dispatch) => {
         onChangeColor: (color) => {
             // 利用dispatch去更新store中的state中的color属性(实际上是操作testReducer中的state中的color属性的值)
             dispatch({ type: 'CHANGE_COLOR', color: color })
+        },
+         // 定义一个方法，count就是当前用户购买的总商品数量
+         onChangeShopCarCount:(count)=>{
+            dispatch({type:'CHANGE_SHOP_CAR_COUNT',count:count})
         }
     }
 }
