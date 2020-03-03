@@ -92,6 +92,11 @@ class login extends React.Component {
                                     )}
                                 </FormItem>
                                 <FormItem>
+                                    <h3>下面是管理员账号，其他账号自行注册即可</h3>
+                                    <span>登录账号：18888888888</span><br />
+                                    <span>登录密码：123456</span><br />
+                                </FormItem>
+                                <FormItem>
 
                                     <Button type="primary" htmlType="submit" className="login-form-button">
                                         登录
